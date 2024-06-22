@@ -9,10 +9,11 @@ const Home = () => {
   const API_Key = "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";
 
   const onChange = (e) => {
+    setImagesrc("");
     setText(e.target.value);
   };
 
-  const handleGenerate = (e) => {
+  const handleGenerate = async (e) => {
     e.preventDefault();
     if (!text) {
       alert("Please enter text to generate an image.");
@@ -22,16 +23,16 @@ const Home = () => {
     setLoading(true);
 
     try {
-      query({ inputs: text }).then((response) => {
-        // Use image
-        let imgURL = URL.createObjectURL(response);
-        setImagesrc(imgURL);
-      });
+      const response = await query({ inputs: text });
+      let imgURL = URL.createObjectURL(response);
+      setImagesrc(imgURL);
+      setLoading(false);
     } catch (error) {
       console.log("Issue is in this block");
+      setLoading(false); 
     }
-    setLoading(false);
   };
+
   async function query(data) {
     console.log(data);
     try {
@@ -47,6 +48,7 @@ const Home = () => {
       return result;
     } catch (error) {
       console.log("Encountered Error while fetching image");
+      throw error;
     }
   }
 
@@ -74,8 +76,15 @@ const Home = () => {
       </form>
 
       <div className="text-center">
-        {!text ? <h2><strong>Generated Image will be displayed here.</strong></h2>: loading? <Spinner/> : <img src={imagesrc} className="rounded" alt="..." />}
-        
+        {loading && <Spinner />}
+        {!loading && imagesrc === "" && (
+          <h2>
+            <strong>Generated Image will be displayed here.</strong>
+          </h2>
+        )}
+        {!loading && imagesrc !== "" && (
+          <img src={imagesrc} className="rounded" alt="Generated" />
+        )}
       </div>
     </div>
   );
