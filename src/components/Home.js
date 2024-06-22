@@ -57,7 +57,7 @@ const Home = () => {
       <form className="my-3" onSubmit={handleGenerate}>
         <div className="mb-3 my-3">
           <label htmlFor="exampleInputEmail1" className="form-label">
-            <h3 style={{marginTop: "3vh"}}><strong>Enter Text to generate Image</strong></h3>
+            <h3 style={{marginTop: "3vh"}}><strong>Enter text to generate image</strong></h3>
           </label>
           <input
             type="text"
@@ -79,7 +79,7 @@ const Home = () => {
         {loading && <Spinner />}
         {!loading && imagesrc === "" && (
           <h4 style={{marginTop: "25vh"}}>
-            <strong>Generated Image will be displayed here.</strong>
+            <strong>Generated image will be displayed here.</strong>
           </h4>
         )}
         {!loading && imagesrc !== "" && (
